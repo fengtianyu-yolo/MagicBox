@@ -83,13 +83,14 @@ class GitLabApi:
         }
 
         # 拼接url
-        url = self._base_url + group_name + '/' + project_name + '/merge_requests'
+        url = self._base_url + 'projects/' + project_id + '/merge_requests'
         print('url=' + url)
-        print(self._header)
+        #print(self._header)
         print(data)
 
         # 发起请求
-        self._session.post(url=url, header=self._header, data=data)
+        response = self._session.post(url=url, headers=self._header, data=data).text
+        print('结果\n' + response)
 
     def get_project_id_by_name(self, project_name):
         if project_name in self._config:
