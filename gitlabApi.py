@@ -68,6 +68,11 @@ class GitLabApi:
 
         # 获取当前所在分支
         source_branch = GitApi.get_current_branch_name()
+        # 如果当前在develop或release分支 获取上次提交到的分支
+        if source_branch == 'develop' or source_branch == 'release':
+            merge_info = self.get_branches(project_id)
+            commit_msg = merge_info[0]
+            source_branch = merge_info[1]
 
         # 获取审核人id
         assignee_id = self._config['assignee_id']
@@ -83,7 +88,7 @@ class GitLabApi:
         }
 
         # 拼接url
-        url = self._base_url + 'projects/' + project_id + '/merge_requests'
+        url = self._base_url + 'projects/' + str(project_id) + '/merge_requests'
         print('url=' + url)
         #print(self._header)
         print(data)
@@ -123,6 +128,31 @@ class GitLabApi:
         query_url = self._base_url + '/users?search=' + name
         response = self._session.get(query_url).text
         users_list = json.loads(response)
+
+    def get_branches(self, project_id):
+        """
+        获取当前库的所有远端分支，过滤保护的分支和已经merge的分支
+        """
+        query_url = self._base_url + 'projects/' + project_id + '/repository/branches'
+        response = self._session.get(url=query_url, headers=self._header)
+        branches = json.loads(response.text)
+
+        index = 0
+        for branch_info in branches:
+            branch_name = branch_info['name']
+            merged = branch_info['merged']
+            protected = branch_info['protected']
+            if not merged and not protected:
+                print('index:%d 分支：%s' %( index, branch_name))
+            index += 1
+
+        select_index = input('选择分支:')
+        select_index = int(select_index)
+        select_branch = branches[select_index]
+        name = select_branch['name']
+        title = select_branch['commit']['title']
+        return (title, name)
+        
 
     def __str__(self):
         return 'base_url:' + self._base_url

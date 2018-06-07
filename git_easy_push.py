@@ -20,6 +20,10 @@ class GitApi:
         # 获取当前所在分支
         branch_name = check_output('git symbolic-ref --short HEAD', shell=True).decode().replace('\n', '')
         push_command = 'git push origin ' + branch_name
+        if branch_name == 'develop' or branch_name == 'release':
+            commit_branch = sys.argv[2]
+            print(commit_branch)
+            push_command = 'git push origin develop:' + commit_branch 
         check_output(push_command, shell=True)
 
 
