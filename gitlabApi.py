@@ -133,7 +133,7 @@ class GitLabApi:
         """
         获取当前库的所有远端分支，过滤保护的分支和已经merge的分支
         """
-        query_url = self._base_url + 'projects/' + project_id + '/repository/branches'
+        query_url = self._base_url + 'projects/' + str(project_id) + '/repository/branches'
         response = self._session.get(url=query_url, headers=self._header)
         branches = json.loads(response.text)
 
