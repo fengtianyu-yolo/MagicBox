@@ -17,7 +17,7 @@ Plugin 'vim-scripts/taglist.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" plugin config
+" plugin config 变量定义
 let g:indentLine_char='|'
 let g:indentLine_enabled=1
 
@@ -38,7 +38,7 @@ let Tlist_Show_One_File=1 " 只显示当前文件的tag
 
 let mapleader = "-"
 
-" key binding
+" key binding 快捷键映射
 map <F5> :call CompileRun()<CR>
 map <F2> :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>
@@ -49,10 +49,12 @@ map <C-L> <C-W><C-L>
 map <leader>c yaw
 map <leader>v vaw"0p
 
-" 自动命令
+" 自动命令 当事件发生时自动执行一些命令
 autocmd BufNewFile *.py exec ":call InsertFirstLine()"
 
-" custom func
+
+" 自定义函数
+
 " 编译运行代码
 func! CompileRun()
 	exec "w"
@@ -68,7 +70,8 @@ function InsertFirstLine()
 	endif
 endfunction
 
-" custom config
+
+" custom config 配置项设置
 colorscheme desert
 set nu
 syntax on
