@@ -12,6 +12,7 @@ Plugin 'vim-syntastic/syntastic' " 语法检查
 Plugin 'scrooloose/nerdtree' " 文件目录
 Plugin 'vim-scripts/indentpython.vim' " python缩进
 Plugin 'kien/ctrlp.vim' " ctrl+p 文件搜索
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/taglist.vim'
 
 call vundle#end()            " required
